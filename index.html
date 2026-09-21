@@ -1,86 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>recall - chess memory trainer</title>
+  <title>ghostboards — chess memory trainer</title>
+  <meta name="description" content="Chess board-memorization and visualization trainer.">
   <link rel="icon" href="assets/wK.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
+
 <body>
   <main class="app">
-    <!-- Hero Header -->
-    <header class="hero">
-      <h1 class="logo">recall</h1>
-      <p class="tagline">chess board-memorization trainer</p>
-      <nav class="nav-bar">
-        <button class="nav-btn active" id="tabTrainerBtn">[ trainer ]</button>
-        <button class="nav-btn" id="tabSettingsBtn">[ settings ]</button>
-      </nav>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <h1 class="logo">ghostboards</h1>
+        <span class="tagline">chess memory trainer</span>
+      </div>
+      <div class="header-right">
+        <span class="streak-counter" id="streakCounter" title="current streak">streak: <b id="streakCount">0</b></span>
+        <button class="hdr-btn" id="soundToggleBtn" title="toggle sound (M)" aria-label="toggle sound">[ sound: <span
+            id="soundState">on</span> ]</button>
+        <button class="hdr-btn" id="shortcutsToggleBtn" title="keyboard shortcuts (?)" aria-label="keyboard shortcuts">[
+          ? ]</button>
+      </div>
     </header>
 
-    <!-- Trainer View -->
-    <section class="view-section" id="trainerView">
-      <div class="status-bar" id="statusBar">rounds: 0&nbsp;&nbsp;avg: --%</div>
+    <!-- Nav -->
+    <nav class="nav" role="tablist">
+      <button class="nav-btn active" id="tabTrainerBtn" role="tab">trainer</button>
+      <button class="nav-btn" id="tabBlitzBtn" role="tab">blitz</button>
+      <button class="nav-btn" id="tabDailyBtn" role="tab">daily</button>
+      <button class="nav-btn" id="tabCustomBtn" role="tab">custom</button>
+      <button class="nav-btn" id="tabStatsBtn" role="tab">stats</button>
+      <button class="nav-btn" id="tabSettingsBtn" role="tab">settings</button>
+    </nav>
 
-      <div class="board-wrapper">
-        <div class="ranks" aria-hidden="true">
-          <span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
+    <!-- =================== TRAINER VIEW =================== -->
+    <section class="view" id="trainerView" role="tabpanel">
+
+      <div class="status-row" id="statusRow">
+        <span>rounds: <b id="statRounds">0</b></span>
+        <span>avg: <b id="statAvg">--%</b></span>
+        <span>mode: <b id="statMode">easy</b></span>
+      </div>
+
+      <!-- Timer HUD -->
+      <div class="timer-hud hidden" id="timerHud">
+        <div class="timer-ring-wrap">
+          <svg class="timer-svg" viewBox="0 0 100 100" aria-hidden="true">
+            <circle class="timer-track" cx="50" cy="50" r="42" />
+            <circle class="timer-fill" id="timerCircle" cx="50" cy="50" r="42" />
+          </svg>
+          <span class="timer-num" id="timerNumber">10</span>
         </div>
-        <div class="board" id="board" role="grid" aria-label="chess board"></div>
-        <div class="corner" aria-hidden="true"></div>
-        <div class="files" aria-hidden="true">
-          <span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span>
+        <div class="timer-text-col">
+          <span class="timer-phase" id="timerPhase">memorize</span>
+          <span class="timer-sub" id="timerSub">study the position</span>
         </div>
       </div>
 
+      <!-- Board -->
+      <div class="board-area">
+        <div class="board-wrap" id="boardWrap">
+          <div class="ranks" id="ranksEl" aria-hidden="true">
+            <span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
+          </div>
+          <div class="board" id="board" role="grid" aria-label="chess board"></div>
+          <div class="corner" aria-hidden="true"></div>
+          <div class="files" id="filesEl" aria-hidden="true">
+            <span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Diff Inspector (result state only) -->
+      <div class="diff-bar hidden" id="diffInspector">
+        <div class="diff-tabs">
+          <button class="diff-tab active" id="diffViewOverlayBtn">overlay</button>
+          <button class="diff-tab" id="diffViewUserBtn">yours</button>
+          <button class="diff-tab" id="diffViewActualBtn">actual</button>
+        </div>
+        <div class="diff-legend">
+          <span class="leg leg-green">correct</span>
+          <span class="leg leg-red">wrong</span>
+          <span class="leg leg-gold">missed</span>
+        </div>
+      </div>
+
+      <!-- Recall Toolbar (recall phase only) -->
+      <div class="recall-toolbar hidden" id="boardToolbar">
+        <button class="tool-btn" id="btnUndo" title="undo (Z)">undo</button>
+        <button class="tool-btn" id="btnClear" title="clear (C)">clear</button>
+        <button class="tool-btn" id="btnHint" title="hint (H)">hint</button>
+        <button class="tool-btn" id="btnFlip" title="flip board (F)">flip</button>
+      </div>
+
+      <!-- Dynamic controls injected by JS -->
       <div class="controls" id="controls"></div>
+
     </section>
 
-    <!-- Settings View -->
-    <section class="view-section hidden" id="settingsView">
-      <div class="settings-card">
-        <h2 class="settings-title">customization</h2>
+    <!-- =================== BLITZ VIEW =================== -->
+    <section class="view hidden" id="blitzView" role="tabpanel">
+      <div class="page-card">
+        <h2 class="page-title">blitz rush</h2>
+        <p class="page-desc">Memorize and recall as many positions as possible in 60 seconds. Your score is the number
+          of boards completed.</p>
+
+        <div class="info-grid">
+          <div class="info-cell">
+            <span class="info-label">high score</span>
+            <span class="info-val" id="blitzHighScore">0</span>
+          </div>
+          <div class="info-cell">
+            <span class="info-label">time limit</span>
+            <span class="info-val">60s</span>
+          </div>
+          <div class="info-cell">
+            <span class="info-label">memorize per board</span>
+            <span class="info-val">5s</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="startBlitzBtn">[ start blitz ]</button>
+      </div>
+    </section>
+
+    <!-- =================== DAILY VIEW =================== -->
+    <section class="view hidden" id="dailyView" role="tabpanel">
+      <div class="page-card">
+        <h2 class="page-title">daily challenge</h2>
+        <p class="page-desc">One position per day, synchronized for all players. Build your daily streak.</p>
+
+        <div class="daily-card">
+          <div class="daily-date" id="dailyDateString">--</div>
+          <div class="daily-status" id="dailyStatusText">ready to play today's board.</div>
+        </div>
+
+        <button class="btn btn-primary" id="startDailyBtn">[ play daily ]</button>
+      </div>
+    </section>
+
+    <!-- =================== CUSTOM VIEW =================== -->
+    <section class="view hidden" id="customView" role="tabpanel">
+      <div class="page-card">
+        <h2 class="page-title">custom position</h2>
+        <p class="page-desc">Paste any FEN string to train on your own positions, opening lines, or endgame studies.</p>
+
+        <div class="form-group">
+          <label class="form-label" for="customFenInput">fen string</label>
+          <input class="text-input" type="text" id="customFenInput"
+            placeholder="r1bqk2r/pppp1ppp/2n2n2/2b5/2B5/2N2N2/PPPP1PPP/R1BQK2R w KQkq - 0 6" autocomplete="off"
+            spellcheck="false">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">presets</label>
+          <div class="chip-row">
+            <button class="chip" data-fen="r1b1kb1r/pppp1ppp/8/4q3/4n3/2P5/PP1P1PPP/RNBQKB1R w KQkq - 0 7">morphy opera
+              game</button>
+            <button class="chip" data-fen="r2q1rk1/pp2ppbp/1np2np1/8/2PP2b1/1PN2N2/P3BPPP/R1BQ1RK1 w - - 1 11">kasparov
+              1999</button>
+            <button class="chip" data-fen="8/8/4k3/8/4p3/4P3/4K3/4R3 w - - 0 1">rook endgame</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">memorize time</label>
+          <div class="btn-row" id="customSecondsRow"></div>
+        </div>
+
+        <button class="btn btn-primary" id="startCustomBtn">[ train position ]</button>
+      </div>
+    </section>
+
+    <!-- =================== STATS VIEW =================== -->
+    <section class="view hidden" id="statsView" role="tabpanel">
+      <div class="page-card">
+        <h2 class="page-title">statistics</h2>
+
+        <div class="stat-grid">
+          <div class="stat-cell">
+            <span class="stat-num" id="statsLifetimeRounds">0</span>
+            <span class="stat-label">total rounds</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-num" id="statsLifetimeAccuracy">--%</span>
+            <span class="stat-label">avg accuracy</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-num" id="statsPerfectRounds">0</span>
+            <span class="stat-label">perfect rounds</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-num" id="statsBestStreak">0</span>
+            <span class="stat-label">best streak</span>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <h3 class="block-title">accuracy by piece type</h3>
+          <div class="piece-grid" id="pieceStatsGrid"></div>
+        </div>
+
+        <div class="section-block">
+          <h3 class="block-title">recent rounds</h3>
+          <div class="history-list" id="historyList">
+            <div class="empty-state">no rounds yet — complete a session to see results here.</div>
+          </div>
+        </div>
+
+        <button class="btn btn-danger" id="resetStatsBtn">[ reset all statistics ]</button>
+      </div>
+    </section>
+
+    <!-- =================== SETTINGS VIEW =================== -->
+    <section class="view hidden" id="settingsView" role="tabpanel">
+      <div class="page-card">
+        <h2 class="page-title">settings</h2>
 
         <div class="setting-group">
-          <label class="setting-label">board color theme</label>
+          <label class="setting-label">board theme</label>
           <div class="theme-grid" id="themeGrid"></div>
         </div>
 
         <div class="setting-group">
-          <label class="setting-label">custom colors</label>
-          <div class="custom-colors-row">
-            <label class="color-picker-label">
-              <span>light:</span>
+          <label class="setting-label">custom board colors</label>
+          <div class="color-row">
+            <label class="color-label">
+              <span>light</span>
               <input type="color" id="customLightColor" value="#f0d9b5">
             </label>
-            <label class="color-picker-label">
-              <span>dark:</span>
+            <label class="color-label">
+              <span>dark</span>
               <input type="color" id="customDarkColor" value="#b58863">
             </label>
-            <button class="btn" id="applyCustomColorBtn">[ apply custom ]</button>
+            <button class="btn" id="applyCustomColorBtn">[ apply ]</button>
           </div>
-          <p class="color-hint" id="colorErrorHint"></p>
+          <p class="hint-text" id="colorErrorHint"></p>
         </div>
 
         <div class="setting-group">
-          <label class="setting-label">difficulty mode</label>
-          <div class="setting-row" id="settingsModeRow"></div>
-          <p class="mode-desc" id="modeDesc">easy: 4-5 pieces</p>
+          <label class="setting-label">default difficulty</label>
+          <div class="btn-row" id="settingsModeRow"></div>
+          <p class="hint-text" id="modeDesc"></p>
         </div>
 
         <div class="setting-group">
-          <label class="setting-label">memorize countdown (seconds)</label>
-          <div class="setting-row" id="settingsSecondsRow"></div>
+          <label class="setting-label">memorize countdown</label>
+          <div class="btn-row" id="settingsSecondsRow"></div>
         </div>
 
-        <div class="settings-actions">
-          <button class="btn" id="backToTrainerBtn">[ ← back to trainer ]</button>
+        <div class="setting-group">
+          <label class="setting-label">options</label>
+          <div class="check-list">
+            <label class="check-item">
+              <input type="checkbox" id="settingCoordsToggle" checked>
+              <span>show board coordinates</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="settingSoundToggle" checked>
+              <span>sound effects</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="settingGhostToggle" checked>
+              <span>ghost piece preview on hover</span>
+            </label>
+          </div>
         </div>
       </div>
     </section>
+
   </main>
 
-  <script src="app.js"></script>
+  <!-- Keyboard Shortcuts Modal -->
+  <div class="modal-overlay hidden" id="shortcutsModal" role="dialog" aria-modal="true" aria-label="keyboard shortcuts">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 class="modal-title">keyboard shortcuts</h3>
+        <button class="close-btn" id="closeShortcutsBtn" aria-label="close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="shortcut-row"><kbd>1</kbd> – <kbd>6</kbd><span>pawn, knight, bishop, rook, queen, king</span></div>
+        <div class="shortcut-row"><kbd>Tab</kbd><span>toggle white / black piece</span></div>
+        <div class="shortcut-row"><kbd>E</kbd> <kbd>Backspace</kbd><span>eraser</span></div>
+        <div class="shortcut-row"><kbd>Right-click</kbd><span>quick erase square</span></div>
+        <div class="shortcut-row"><kbd>Z</kbd><span>undo last placement</span></div>
+        <div class="shortcut-row"><kbd>C</kbd><span>clear board</span></div>
+        <div class="shortcut-row"><kbd>H</kbd><span>reveal one piece hint</span></div>
+        <div class="shortcut-row"><kbd>F</kbd><span>flip board</span></div>
+        <div class="shortcut-row"><kbd>M</kbd><span>toggle sound</span></div>
+        <div class="shortcut-row"><kbd>Space</kbd> <kbd>Enter</kbd><span>advance phase</span></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" id="modalOkBtn">[ close ]</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=3"></script>
 </body>
+
 </html>
