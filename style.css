@@ -1,0 +1,384 @@
+:root {
+  --board-light: #f0d9b5;
+  --board-dark: #b58863;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #fff;
+  color: #000;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-transform: lowercase;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1.5rem 1rem;
+}
+
+.app {
+  width: 100%;
+  max-width: 34rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* Hero section */
+.hero {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+  border-bottom: 1px solid #000;
+  padding-bottom: 1rem;
+}
+
+.logo {
+  font-size: 1.75rem;
+  font-weight: bold;
+  letter-spacing: -0.05em;
+}
+
+.tagline {
+  font-size: 0.85rem;
+  color: #000;
+  opacity: 0.8;
+}
+
+.nav-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.nav-btn {
+  font-family: inherit;
+  font-size: 0.9rem;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.nav-btn:hover, .nav-btn.active {
+  background-color: #000;
+  color: #fff;
+}
+
+.nav-btn.active:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Views */
+.view-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.view-section.hidden {
+  display: none;
+}
+
+.status-bar {
+  font-size: 0.95rem;
+  text-align: center;
+  min-height: 1.5rem;
+}
+
+/* Board */
+.board-wrapper {
+  display: grid;
+  grid-template-columns: 1.2rem auto;
+  grid-template-rows: auto 1.2rem;
+  align-items: center;
+}
+
+.ranks {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+  padding-right: 0.35rem;
+  font-size: 0.8rem;
+  user-select: none;
+}
+
+.ranks span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: min(11vw, 4rem);
+}
+
+.files {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(8, min(11vw, 4rem));
+  justify-items: center;
+  padding-top: 0.35rem;
+  font-size: 0.8rem;
+  user-select: none;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, min(11vw, 4rem));
+  grid-template-rows: repeat(8, min(11vw, 4rem));
+  border: 2px solid #000;
+}
+
+.square {
+  width: min(11vw, 4rem);
+  height: min(11vw, 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  position: relative;
+}
+
+.square.light {
+  background-color: var(--board-light);
+}
+
+.square.dark {
+  background-color: var(--board-dark);
+}
+
+.piece-img {
+  width: 85%;
+  height: 85%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.controls {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn, .toggle-btn {
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  user-select: none;
+}
+
+.btn:hover, .toggle-btn:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.toggle-btn.active {
+  background-color: #000;
+  color: #fff;
+}
+
+.toggle-btn.active:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.tray {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 0.25rem;
+}
+
+.tray-btn {
+  width: 2.3rem;
+  height: 2.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 1px solid #000;
+  cursor: pointer;
+  user-select: none;
+  padding: 2px;
+}
+
+.tray-img {
+  width: 1.6rem;
+  height: 1.6rem;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.tray-btn:hover {
+  outline: 2px solid #000;
+}
+
+.tray-btn.selected {
+  background-color: #000;
+  outline: 2px solid #000;
+}
+
+.tray-btn.selected .tray-img {
+  filter: invert(1);
+}
+
+.results-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
+  width: 100%;
+}
+
+.results-list {
+  text-transform: none;
+}
+
+.game-link {
+  color: #000;
+  text-decoration: underline;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.game-link:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Settings View Styles */
+.settings-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  border: 1px solid #000;
+  padding: 1.25rem;
+}
+
+.settings-title {
+  font-size: 1.15rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.setting-label {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: 0.6rem;
+}
+
+.theme-card {
+  border: 1px solid #000;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: #fff;
+  user-select: none;
+}
+
+.theme-card:hover {
+  background-color: #f5f5f5;
+}
+
+.theme-card.active {
+  outline: 2px solid #000;
+  background-color: #f0f0f0;
+}
+
+.theme-swatch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  width: 3.5rem;
+  height: 2.2rem;
+  border: 1px solid #000;
+}
+
+.theme-name {
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.custom-colors-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.color-picker-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.color-picker-label input[type="color"] {
+  border: 1px solid #000;
+  width: 2rem;
+  height: 1.8rem;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+}
+
+.color-hint {
+  font-size: 0.8rem;
+  color: #c00;
+  min-height: 1rem;
+}
+
+.settings-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}

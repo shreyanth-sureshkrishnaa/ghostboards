@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>recall - chess memory trainer</title>
+  <link rel="icon" href="assets/wK.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <!-- Hero Header -->
+    <header class="hero">
+      <h1 class="logo">recall</h1>
+      <p class="tagline">chess board-memorization trainer</p>
+      <nav class="nav-bar">
+        <button class="nav-btn active" id="tabTrainerBtn">[ trainer ]</button>
+        <button class="nav-btn" id="tabSettingsBtn">[ settings ]</button>
+      </nav>
+    </header>
+
+    <!-- Trainer View -->
+    <section class="view-section" id="trainerView">
+      <div class="status-bar" id="statusBar">rounds: 0&nbsp;&nbsp;avg: --%</div>
+
+      <div class="board-wrapper">
+        <div class="ranks" aria-hidden="true">
+          <span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
+        </div>
+        <div class="board" id="board" role="grid" aria-label="chess board"></div>
+        <div class="corner" aria-hidden="true"></div>
+        <div class="files" aria-hidden="true">
+          <span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span>
+        </div>
+      </div>
+
+      <div class="controls" id="controls"></div>
+    </section>
+
+    <!-- Settings View -->
+    <section class="view-section hidden" id="settingsView">
+      <div class="settings-card">
+        <h2 class="settings-title">customization</h2>
+
+        <div class="setting-group">
+          <label class="setting-label">board color theme</label>
+          <div class="theme-grid" id="themeGrid"></div>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">custom colors</label>
+          <div class="custom-colors-row">
+            <label class="color-picker-label">
+              <span>light:</span>
+              <input type="color" id="customLightColor" value="#f0d9b5">
+            </label>
+            <label class="color-picker-label">
+              <span>dark:</span>
+              <input type="color" id="customDarkColor" value="#b58863">
+            </label>
+            <button class="btn" id="applyCustomColorBtn">[ apply custom ]</button>
+          </div>
+          <p class="color-hint" id="colorErrorHint"></p>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">memorize countdown (seconds)</label>
+          <div class="setting-row" id="settingsSecondsRow"></div>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">piece count filter</label>
+          <div class="setting-row" id="settingsPiecesRow"></div>
+        </div>
+
+        <div class="settings-actions">
+          <button class="btn" id="backToTrainerBtn">[ ← back to trainer ]</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
