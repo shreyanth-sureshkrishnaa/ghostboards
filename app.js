@@ -9,13 +9,19 @@ let selectedTool = 'K';
 let timerId = null;
 let timeLeft = 10;
 let settings = { 
-  pieces: [4, 5], 
+  mode: 'easy', // 'easy' | 'medium' | 'hard'
   seconds: 10,
   theme: 'wood',
   customLight: '#f0d9b5',
   customDark: '#b58863'
 };
 let session = { rounds: 0, totalScore: 0 };
+
+const MODES = {
+  easy: { label: 'easy', desc: 'easy: 4-5 pieces (endgame positions)' },
+  medium: { label: 'medium', desc: 'medium: 10-20 pieces (simplified games)' },
+  hard: { label: 'hard', desc: 'hard: full boards with some pieces off' }
+};
 
 const THEMES = {
   wood: { name: 'classic wood', light: '#f0d9b5', dark: '#b58863' },
@@ -100,7 +106,7 @@ function shuffle(arr) {
 }
 
 function getNextPosition() {
-  const filtered = allPositions.filter(p => settings.pieces.includes(p.pieces));
+  const filtered = allPositions.filter(p => p.difficulty === settings.mode);
   if (!filtered.length) return null;
   if (!availableDeck.length) {
     availableDeck = [...filtered];
@@ -201,6 +207,21 @@ function renderSettingsView() {
     };
   });
 
+  const modeRow = document.getElementById('settingsModeRow');
+  modeRow.innerHTML = Object.keys(MODES).map(m => `
+    <button class="toggle-btn ${settings.mode === m ? 'active' : ''}" data-mode="${m}">${m}</button>
+  `).join('');
+  modeRow.querySelectorAll('[data-mode]').forEach(btn => {
+    btn.onclick = () => {
+      settings.mode = btn.dataset.mode;
+      availableDeck = [];
+      renderSettingsView();
+      if (state === 'idle') goIdle();
+    };
+  });
+
+  document.getElementById('modeDesc').textContent = MODES[settings.mode].desc;
+
   const secRow = document.getElementById('settingsSecondsRow');
   secRow.innerHTML = [5, 10, 15, 20, 30].map(s => `
     <button class="toggle-btn ${settings.seconds === s ? 'active' : ''}" data-sec="${s}">${s}</button>
@@ -208,24 +229,6 @@ function renderSettingsView() {
   secRow.querySelectorAll('[data-sec]').forEach(btn => {
     btn.onclick = () => {
       settings.seconds = parseInt(btn.dataset.sec, 10);
-      renderSettingsView();
-      if (state === 'idle') goIdle();
-    };
-  });
-
-  const pcsRow = document.getElementById('settingsPiecesRow');
-  pcsRow.innerHTML = [4, 5, 6, 7].map(n => `
-    <button class="toggle-btn ${settings.pieces.includes(n) ? 'active' : ''}" data-val="${n}">${n}</button>
-  `).join('');
-  pcsRow.querySelectorAll('[data-val]').forEach(btn => {
-    btn.onclick = () => {
-      const val = parseInt(btn.dataset.val, 10);
-      if (settings.pieces.includes(val)) {
-        if (settings.pieces.length > 1) settings.pieces = settings.pieces.filter(p => p !== val);
-      } else {
-        settings.pieces.push(val);
-      }
-      availableDeck = [];
       renderSettingsView();
       if (state === 'idle') goIdle();
     };
@@ -241,7 +244,6 @@ function isTooDark(hex) {
   const r = parseInt(c.substring(0, 2), 16);
   const g = parseInt(c.substring(2, 4), 16);
   const b = parseInt(c.substring(4, 6), 16);
-  // relative luminance approximation
   return (r * 0.299 + g * 0.587 + b * 0.114) < 35;
 }
 
@@ -274,9 +276,9 @@ function goIdle() {
 
   controlsEl.innerHTML = `
     <div class="setting-row">
-      <span>pieces:</span>
-      ${[4, 5, 6, 7].map(n => `
-        <button class="toggle-btn ${settings.pieces.includes(n) ? 'active' : ''}" data-val="${n}">${n}</button>
+      <span>mode:</span>
+      ${Object.keys(MODES).map(m => `
+        <button class="toggle-btn ${settings.mode === m ? 'active' : ''}" data-mode="${m}">${m}</button>
       `).join('')}
     </div>
     <div class="setting-row">
@@ -288,14 +290,9 @@ function goIdle() {
     <button class="btn" id="startBtn">[ start ]</button>
   `;
 
-  controlsEl.querySelectorAll('[data-val]').forEach(btn => {
+  controlsEl.querySelectorAll('[data-mode]').forEach(btn => {
     btn.onclick = () => {
-      const val = parseInt(btn.dataset.val, 10);
-      if (settings.pieces.includes(val)) {
-        if (settings.pieces.length > 1) settings.pieces = settings.pieces.filter(p => p !== val);
-      } else {
-        settings.pieces.push(val);
-      }
+      settings.mode = btn.dataset.mode;
       availableDeck = [];
       goIdle();
     };

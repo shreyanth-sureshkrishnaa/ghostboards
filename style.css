@@ -371,6 +371,12 @@ body {
   padding: 0;
 }
 
+.mode-desc {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  text-align: center;
+}
+
 .color-hint {
   font-size: 0.8rem;
   color: #c00;

@@ -1,14 +1,140 @@
 [
-  {"fen": "8/8/8/3k4/3p4/8/3K4/3R4 w - - 0 1",     "pieces": 4, "game": "LYwpHR4k"},
-  {"fen": "8/8/5k2/5p2/8/5K2/5P2/8 w - - 0 1",     "pieces": 4, "game": "sT7mXqA2"},
-  {"fen": "8/p7/8/8/2k5/8/2K5/2Q5 w - - 0 1",      "pieces": 4, "game": "nB3cVzW9"},
-  {"fen": "8/8/2k5/2p5/2P5/2K5/8/5R2 w - - 0 1",   "pieces": 5, "game": "qE6hJdF1"},
-  {"fen": "8/8/4k3/8/4p3/4P3/4K3/4R3 w - - 0 1",   "pieces": 5, "game": "rG8mKpN5"},
-  {"fen": "8/3k4/3p4/8/8/3K4/3P4/3Q4 w - - 0 1",   "pieces": 5, "game": "aH2bLsZ7"},
-  {"fen": "8/8/1k6/1p6/1P6/1K6/8/1R4B1 w - - 0 1", "pieces": 6, "game": "cD4eRtY3"},
-  {"fen": "8/8/3k4/2pPp3/8/3K4/8/4R3 w - - 0 1",   "pieces": 6, "game": "fF5gMvU8"},
-  {"fen": "8/2k5/2p5/2p5/2PP4/2K5/8/8 w - - 0 1",  "pieces": 6, "game": "hI9jNxW6"},
-  {"fen": "8/8/2k5/2p1p3/2P1P3/2K5/8/2R5 w - - 0 1","pieces": 7, "game": "kJ1lOyX4"},
-  {"fen": "8/1k6/1p1p4/8/1P1P4/1K6/8/1R6 w - - 0 1","pieces": 7, "game": "mL3nPzC2"},
-  {"fen": "8/8/3k4/3p1p2/3P1P2/3K4/8/4R3 w - - 0 1","pieces": 7, "game": "oM7pQaE5"}
+  {
+    "fen": "8/8/8/3k4/3p4/8/3K4/3R4 w - - 0 1",
+    "difficulty": "easy",
+    "game": "LYwpHR4k",
+    "pieces": 4
+  },
+  {
+    "fen": "8/8/5k2/5p2/8/5K2/5P2/8 w - - 0 1",
+    "difficulty": "easy",
+    "game": "sT7mXqA2",
+    "pieces": 4
+  },
+  {
+    "fen": "8/p7/8/8/2k5/8/2K5/2Q5 w - - 0 1",
+    "difficulty": "easy",
+    "game": "nB3cVzW9",
+    "pieces": 4
+  },
+  {
+    "fen": "8/8/2k5/2p5/2P5/2K5/8/5R2 w - - 0 1",
+    "difficulty": "easy",
+    "game": "qE6hJdF1",
+    "pieces": 5
+  },
+  {
+    "fen": "8/8/4k3/8/4p3/4P3/4K3/4R3 w - - 0 1",
+    "difficulty": "easy",
+    "game": "rG8mKpN5",
+    "pieces": 5
+  },
+  {
+    "fen": "8/3k4/3p4/8/8/3K4/3P4/3Q4 w - - 0 1",
+    "difficulty": "easy",
+    "game": "aH2bLsZ7",
+    "pieces": 5
+  },
+  {
+    "fen": "8/8/1k6/1p6/1P6/1K6/8/1R6 w - - 0 1",
+    "difficulty": "easy",
+    "game": "cD4eRtY3",
+    "pieces": 5
+  },
+  {
+    "fen": "4r1k1/5ppp/8/8/8/8/5PPP/4R1K1 w - - 0 25",
+    "difficulty": "medium",
+    "game": "mD9kXyR1",
+    "pieces": 10
+  },
+  {
+    "fen": "3r2k1/5ppp/p7/1p6/8/8/5PPP/3R2K1 w - - 0 24",
+    "difficulty": "medium",
+    "game": "aB3cDeF5",
+    "pieces": 12
+  },
+  {
+    "fen": "3r2k1/pp3ppp/4p3/8/8/4PN2/PP3PPP/3R2K1 w - - 0 20",
+    "difficulty": "medium",
+    "game": "qA7vBwE9",
+    "pieces": 17
+  },
+  {
+    "fen": "6k1/5ppp/p1r1p3/1p6/1P6/P3P3/5PPP/3R2K1 w - - 0 26",
+    "difficulty": "medium",
+    "game": "pL2mNzV4",
+    "pieces": 16
+  },
+  {
+    "fen": "2r3k1/5ppp/p3p3/1p6/1P6/P3P3/5PPP/2R3K1 w - - 0 24",
+    "difficulty": "medium",
+    "game": "tS4uRxY8",
+    "pieces": 16
+  },
+  {
+    "fen": "2r2rk1/pp3ppp/4p3/8/8/4PN2/PP3PPP/2R2RK1 w - - 0 18",
+    "difficulty": "medium",
+    "game": "vK8nMbC3",
+    "pieces": 19
+  },
+  {
+    "fen": "r4rk1/pp1b1ppp/4p3/8/8/4PN2/PP3PPP/2R2RK1 w - - 2 13",
+    "difficulty": "medium",
+    "game": "xR5tVbN2",
+    "pieces": 20
+  },
+  {
+    "fen": "r4rk1/ppp2ppp/4p3/8/8/4P3/PPP2PPP/R4RK1 w - - 0 15",
+    "difficulty": "medium",
+    "game": "zT9wQcM7",
+    "pieces": 20
+  },
+  {
+    "fen": "r4rk1/pp3ppp/4p3/3p4/8/4PN2/PP3PPP/R4RK1 w - - 0 15",
+    "difficulty": "medium",
+    "game": "zT9wQcM8",
+    "pieces": 20
+  },
+  {
+    "fen": "r1b1k2r/pp2bppp/4pn2/3p4/2PP4/2N1PN2/PP2BPPP/R1B2RK1 w kq - 4 9",
+    "difficulty": "hard",
+    "game": "bN3vCwP9",
+    "pieces": 28
+  },
+  {
+    "fen": "r4rk1/pp1qbppp/3p1n2/4p3/2BPP1b1/2P1BN2/PP1N1PPP/R2Q1RK1 w - - 4 10",
+    "difficulty": "hard",
+    "game": "dF7gHsJ2",
+    "pieces": 30
+  },
+  {
+    "fen": "r1bqk2r/pp2pppp/2n2n2/3p4/2PP4/2N2N2/PP2PPPP/R1BQKB1R w KQkq - 4 5",
+    "difficulty": "hard",
+    "game": "fJ9kLmP4",
+    "pieces": 30
+  },
+  {
+    "fen": "r1bqk2r/ppp2ppp/2n5/3np3/2B5/2NP1N2/PPP2PPP/R1BQK2R w KQkq - 0 7",
+    "difficulty": "hard",
+    "game": "hL1mNxQ6",
+    "pieces": 29
+  },
+  {
+    "fen": "r1b2rk1/pp2bppp/4pn2/2pp4/2PP4/2N1PN2/PP2BPPP/R1BQR1K1 w - - 6 9",
+    "difficulty": "hard",
+    "game": "lR5tVwX0",
+    "pieces": 30
+  },
+  {
+    "fen": "r1bq1rk1/pp2ppbp/2np1np1/8/3NP3/2N1B3/PPP1BPPP/R2Q1RK1 w - - 2 9",
+    "difficulty": "hard",
+    "game": "pU9wZaB4",
+    "pieces": 30
+  },
+  {
+    "fen": "r1bqk2r/pppp1ppp/2n2n2/2b5/2B5/2N2N2/PPPP1PPP/R1BQK2R w KQkq - 0 6",
+    "difficulty": "hard",
+    "game": "r1b2c3d",
+    "pieces": 30
+  }
 ]
